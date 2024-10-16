@@ -10,7 +10,7 @@ const cerrar_session = () => {
 const obtener_informacion = () => {
     fetch("app/controller/informacion_usuario.php")
     .then(respuesta => respuesta.json())
-    .then((respuesta) => {
+    .then(async (respuesta) => {
         document.getElementById('nombre').value = respuesta['nombre'];
         document.getElementById('apellido').value = respuesta['apellido'];
         document.getElementById('year').value = respuesta['ingreso'];

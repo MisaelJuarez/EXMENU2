@@ -12,10 +12,18 @@ const validar_usuario = () => {
     }).then(respuesta => respuesta.json())
     .then(async respuesta => {
         if (respuesta[0] == 1) {
-            await Swal.fire({icon: "success",title:`${respuesta[1]}`});
+            
             if (respuesta[2] == "estudiante") {
-                window.location="informacion_usuario.php";
+                if (respuesta[0] == 0) {
+                    await Swal.fire({icon: "success",title:`${respuesta[1]}`});
+                    window.location = "login.php";
+                } else if (respuesta[0] == 1) {
+                    await Swal.fire({icon: "success",title:`${respuesta[1]}`});
+                    window.location = "informacion_usuario.php";
+                }
+                // window.location="informacion_usuario.php";
             } else if (respuesta[2] == "administrador") {
+                await Swal.fire({icon: "success",title:`${respuesta[1]}`});
                 window.location="index.php";
             }
         }else {

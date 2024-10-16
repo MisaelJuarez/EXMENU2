@@ -14,11 +14,22 @@ if(isset($_POST['usuario']) && !empty($_POST['usuario']) && isset($_POST['pass']
 
     if ($datos) {
         if ($datos['pass'] == $passw) {
-            $_SESSION['usuario'] = $datos;
-
+            
             if ($datos['rol'] == 'estudiante') {
-                echo json_encode([1,"Datos de acceso correctos","estudiante"]);
+                $alumno = $conexion->prepare("SELECT * FROM t_alumno WHERE nombre = :nombre");
+                $alumno->bindParam(':nombre',$usuario);
+                $alumno->execute();
+                $datosAlumno = $alumno->fetch(PDO::FETCH_ASSOC);   
+
+                if ($datosAlumno) {
+                    $_SESSION['usuario'] = $datos;
+                    echo json_encode([1,"Datos de acceso correctos","estudiante"]);
+                } else {
+                    echo json_encode([0,"El administrador aun no ingresa informacion tuya"]);
+                }
+
             } else if ($datos['rol'] == 'administrador') {
+                $_SESSION['usuario'] = $datos;
                 echo json_encode([1,"Datos de acceso correctos","administrador"]);
             }
 
